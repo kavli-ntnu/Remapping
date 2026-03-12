@@ -1,51 +1,32 @@
-load fig3de_sessionPairs
 load expList_HP_3f
+load expStore_3f
 
-%%
 meanStore = nan(size(expStore,1),1);
 errStore = nan(size(expStore,1),1);
 
 for iRow = 1:size(expStore,1)
-    if ~isempty(expStore{iRow,5})
-        meanStore(iRow,1) = nanmean(expStore{iRow,5});
-        errStore(iRow,1) = nanstd(expStore{iRow,5}) ./ sqrt(sum(~isnan(expStore{iRow,5})));
-    end
-end
-
-meanStoreStab = nan(size(expStore,1),1);
-errStoreStab = nan(size(expStore,1),1);
-
-for iRow = 1:size(expStoreStab,1)
-    if ~isempty(expStoreStab{iRow,5})
-        meanStoreStab(iRow,1) = nanmean(expStoreStab{iRow,5});
-        errStoreStab(iRow,1) = nanstd(expStoreStab{iRow,5}) ./ sqrt(sum(~isnan(expStoreStab{iRow,5})));
+    if ~isempty(expStore{iRow,1})
+        meanStore(iRow,1) = nanmean(expStore{iRow,1});
+        errStore(iRow,1) = nanstd(expStore{iRow,1}) ./ sqrt(sum(~isnan(expStore{iRow,1})));
     end
 end
 
 %%
+load fig3de_sessionPairs
+
 idx = kmeans([minNormDist meanStore],3,'replicates',1000);
+groupIDs = [idx(1) idx(16) idx(7)];
 
 figure;
 scatter(minNormDist,meanStore,55,idx,'filled')
 close(gcf)
-
-groupIDs = [idx(1) idx(16) idx(7)];
-
-xVals = minNormDist;
-yVals = meanStore;
-xLogic = ~isnan(xVals);
-yLogic = ~isnan(yVals);
-xVals = xVals(xLogic & yLogic);
-yVals = yVals(xLogic & yLogic);
-
-[r,p] = corr(xVals,yVals)
 
 %%
 pvStore = nan(size(expList_HP,1),2);
 errStorePV = nan(size(expList_HP,1),2);
 for iExp = 1:size(expList_HP,1)
     if ~isempty(expList_HP{iExp,9})
-        load(sprintf('%s',expList_HP{iExp,8}))
+        simplePVstoreRaw = expList_HP{iExp,8};
         expCol = expList_HP{iExp,9};
         pvStore(iExp,1) = nanmean(simplePVstoreRaw(:,expCol,2));
         pvStore(iExp,2) = nanmedian(simplePVstoreRaw(:,expCol,2));          
@@ -111,7 +92,7 @@ for iGrp = 1:3
     counts1 = nan(size(inds,1),nBins);
     
     for i = 1:size(inds,1)
-        load(sprintf('%s',expList_HP{inds(i),8}))
+        simplePVstoreRaw = expList_HP{inds(i),8};
         expCol = expList_HP{inds(i),9};
         temp = simplePVstoreRaw(:,expCol,2);
         
@@ -124,9 +105,8 @@ for iGrp = 1:3
     xStore{1,iGrp} = nanmean(x1);
     yStore{1,iGrp} = nanmean(y1);
     countStore{1,iGrp} = nanmedian(counts1);
-    
+    close (gcf)
 end
-% close(gcf)
 
 %%
 stabMat = [];
@@ -137,7 +117,7 @@ counts1 = nan(size(expList_HP,1),nBins);
 
 for i = 1:size(expList_HP,1)
     if ~isempty(expList_HP{i,10})
-        load(sprintf('%s',expList_HP{i,8}))
+        simplePVstoreRaw = expList_HP{i,8};
         expCol = expList_HP{i,10};
         temp = simplePVstoreRaw(:,expCol,2);
         stabMat = [stabMat; temp];
@@ -176,4 +156,5 @@ hold on
 
 ylim([0 0.03])
 xlim([-0.21 1.01])
-
+ylabel('Probability')
+xlabel('PV correlation')
