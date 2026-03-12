@@ -16,7 +16,7 @@ for iRow = 1:size(expStore,1)
 end
 
 %%
-load colorVec
+% load colorVec
 
 figure('position',[-1499,285,1181,305]); 
 subplot(131)
