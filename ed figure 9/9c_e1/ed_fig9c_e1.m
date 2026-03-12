@@ -47,7 +47,7 @@ colormap(flipud(colormap))
 %%
 load colorVec
 
-figure; 
+figure;
 scatter(minDisp,meanStore,40,colorVec,'linewidth',1.5)
 hold on
 
