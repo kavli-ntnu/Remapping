@@ -1,4 +1,4 @@
-% load rotChange_ed11h
+load rotChange_ed11h
 
 load colorVec
 figure;
