@@ -1,6 +1,5 @@
 
-load('Q:\chrislyk\from ben\Lisman super sim\rotationsToTest.mat')
-
+load rotationsToTestAll
 load validStoreRot
 validStoreAll = validStore;
 

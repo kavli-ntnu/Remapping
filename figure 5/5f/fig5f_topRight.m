@@ -1,5 +1,5 @@
 
-load('Q:\chrislyk\from ben\Lisman super sim\rotationsToTest.mat')
+load rotationsToTestAll
 load rotationRemappingVals
 
 %%

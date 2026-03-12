@@ -1,6 +1,7 @@
 
-load('Q:\chrislyk\from ben\Lisman super sim\rotationsToTest.mat')
-load('Q:\chrislyk\simulationPV\rotationPV_all.mat')
+load rotationsToTestAll
+load simulationVariables_5f_hist
+maxCorrAll = maxCorrRot;
 
 %%
 % module rotations
